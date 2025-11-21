@@ -2,8 +2,8 @@
 
 namespace Novatorius\Siren\ManualAttribution;
 
-use NorthCommerceStripe\Issuing\Transaction;
 use Novatorius\Siren\ManualAttribution\Handlers\RegisterEngagementTriggerStrategies;
+use Novatorius\Siren\ManualAttribution\Handlers\UpdateTransaction;
 use PHPNomad\Core\Facades\Template;
 use PHPNomad\Events\Interfaces\HasEventBindings;
 use PHPNomad\Events\Interfaces\HasListeners;
@@ -13,6 +13,7 @@ use PHPNomad\Utils\Helpers\Arr;
 use Siren\Engagements\Core\Events\EngagementTriggerRegistryInitiated;
 use Siren\Extensions\Core\Interfaces\Extension;
 use Siren\Roles\Enums\Roles;
+use Siren\Transactions\Core\Models\Transaction;
 use Siren\WordPress\Core\Events\BulkActionInitiated;
 use Siren\WordPress\Core\Events\SingleActionInitiated;
 
@@ -66,6 +67,15 @@ final class Initializer implements Extension, Loadable, HasEventBindings, HasLis
             'siren_transactions',
             fn() => $this->renderTemplate('public/templates/admin/screens/transactions')
         );
+
+        add_submenu_page(
+            ' ',
+            'Edit Transaction',
+            'Edit Transaction',
+            'siren_' . Roles::FulfillmentManager,
+            'siren_transactions_edit',
+            fn() => $this->renderTemplate('public/templates/admin/screens/edit-transaction')
+        );
     }
 
     private function renderTemplate($template)
@@ -84,7 +94,6 @@ final class Initializer implements Extension, Loadable, HasEventBindings, HasLis
                 ['action' => 'admin_init', 'transformer' => function () {
                     $page = Arr::get($_REQUEST, 'page');
                     $action = Arr::get($_REQUEST, 'action');
-                    $item = Arr::get($_REQUEST, 'id');
                     $nonce = Arr::get($_REQUEST, '_wpnonce', '');
 
 
@@ -93,7 +102,7 @@ final class Initializer implements Extension, Loadable, HasEventBindings, HasLis
                     }
 
                     if (($page === 'siren_transactions_edit') && wp_verify_nonce($nonce, 'edit_transaction')) {
-                        return new SingleActionInitiated($item ? (int)$item : null, $action, Transaction::class);
+                        return new SingleActionInitiated(null, $action, Transaction::class);
                     }
 
                     return null;
@@ -124,7 +133,8 @@ final class Initializer implements Extension, Loadable, HasEventBindings, HasLis
     public function getListeners(): array
     {
         return [
-            EngagementTriggerRegistryInitiated::class => RegisterEngagementTriggerStrategies::class
+            EngagementTriggerRegistryInitiated::class => RegisterEngagementTriggerStrategies::class,
+            SingleActionInitiated::class => UpdateTransaction::class
         ];
     }
 }
