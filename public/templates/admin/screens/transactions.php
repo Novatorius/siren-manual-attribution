@@ -34,8 +34,8 @@ $collaborators = InstanceProvider::get(CollaboratorDatastore::class)->andWhere([
         <h1>Credit Collaborator With Transaction</h1>
         <p>Specify the collaborator to credit.</p>
         <form id="siren-modal-confirm" class="trait--flex-form">
-            <label for="programId">Collaborator
-                <select name="programGroupId">
+            <label for="collaboratorId">Collaborator
+                <select name="collaboratorId">
                     <?php
                     // TODO: Make this restful.
                     /**

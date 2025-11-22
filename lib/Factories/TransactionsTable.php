@@ -112,7 +112,6 @@ class TransactionsTable extends WP_List_Table
             $page = $_GET['paged'] ?? 1;
             $offset = absint($page - 1) * $perPage;
             $args = [];
-            $subQueryArgs = [];
 
             if (in_array(Arr::get($_REQUEST, 'status'), ['active', 'inactive', 'pending'])) {
                 $args[] = ['column' => 'status', 'operator' => '=', 'value' => Arr::get($_REQUEST, 'status')];

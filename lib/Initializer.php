@@ -22,37 +22,60 @@ final class Initializer implements Extension, Loadable, HasEventBindings, HasLis
 {
     protected bool $isActive = false;
 
+    /**
+     * @inheritDoc
+     */
     public function getName(): string
     {
         return 'Manual Collaborator Attribution';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getDescription(): string
     {
         return 'Allows manual attribution of collaborators to transactions.';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function canActivate(): bool
     {
         return true;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getIsActive(): bool
     {
         return $this->isActive;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getSupports(): array
     {
         return [];
     }
 
+    /**
+     * @inheritDoc
+     */
     public function load(): void
     {
         $this->isActive = true;
         add_action('admin_menu', fn() => $this->loadSubmenus());
     }
 
+    /**
+     * Loads the admin submenus.
+     *
+     * @return void
+     */
     protected function loadSubmenus(): void
     {
          add_submenu_page(
@@ -74,6 +97,12 @@ final class Initializer implements Extension, Loadable, HasEventBindings, HasLis
         );
     }
 
+    /**
+     * Renders a template.
+     *
+     * @param $template
+     * @return void
+     */
     private function renderTemplate($template)
     {
         try {
@@ -83,6 +112,9 @@ final class Initializer implements Extension, Loadable, HasEventBindings, HasLis
         }
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getEventBindings(): array
     {
         return [
@@ -126,6 +158,9 @@ final class Initializer implements Extension, Loadable, HasEventBindings, HasLis
         ];
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getListeners(): array
     {
         return [
