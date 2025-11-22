@@ -19,7 +19,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 add_action('siren_ready', function(){
-    require_once(plugin_dir_path(__FILE__) . 'autoload.php');
+    define('SIREN_MANUAL_AFFILIATE_PAYOUTS_PATH', plugin_dir_path(__FILE__));
+    require_once(SIREN_MANUAL_AFFILIATE_PAYOUTS_PATH . 'autoload.php');
 
-    Extensions::add('ManualAffiliatePayouts',fn() => new Initializer(__FILE__));
+    Extensions::add('ManualAffiliatePayouts',fn() => new Initializer());
 });
