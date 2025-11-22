@@ -2,8 +2,8 @@
 
 namespace Novatorius\Siren\ManualAttribution\Services;
 
-use NorthCommerceStripe\Issuing\Transaction;
 use Siren\Collaborators\Core\Models\Collaborator;
+use Siren\Transactions\Core\Models\Transaction;
 
 class ManualAttributionService
 {
