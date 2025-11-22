@@ -33,6 +33,9 @@ class UpdateTransaction implements CanHandle
             $detail['value'] = $this->priceAdapter->toInt(Arr::get($detail, 'value'));
             settype($detail['quantity'], 'int');
 
+            if($detail['type'] === 'discount'){
+                $detail['value'] = -abs($detail['value']);
+            }
             if($detail['type'] === 'custom'){
                 $detail['type'] = $detail['custom_type'];
             }

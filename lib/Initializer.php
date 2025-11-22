@@ -2,6 +2,7 @@
 
 namespace Novatorius\Siren\ManualAttribution;
 
+use Novatorius\Siren\ManualAttribution\Handlers\HandleManualAttribution;
 use Novatorius\Siren\ManualAttribution\Handlers\RegisterEngagementTriggerStrategies;
 use Novatorius\Siren\ManualAttribution\Handlers\UpdateTransaction;
 use PHPNomad\Core\Facades\Template;
@@ -20,11 +21,6 @@ use Siren\WordPress\Core\Events\SingleActionInitiated;
 final class Initializer implements Extension, Loadable, HasEventBindings, HasListeners
 {
     protected bool $isActive = false;
-
-    public function __construct(protected string $file)
-    {
-
-    }
 
     public function getName(): string
     {
@@ -81,7 +77,7 @@ final class Initializer implements Extension, Loadable, HasEventBindings, HasLis
     private function renderTemplate($template)
     {
         try {
-            echo Template::render(plugin_dir_path($this->file) . $template);
+            echo Template::render(SIREN_MANUAL_AFFILIATE_PAYOUTS_PATH . $template);
         } catch (TemplateNotFound $exception) {
             wp_die($exception->getMessage());
         }
@@ -134,7 +130,8 @@ final class Initializer implements Extension, Loadable, HasEventBindings, HasLis
     {
         return [
             EngagementTriggerRegistryInitiated::class => RegisterEngagementTriggerStrategies::class,
-            SingleActionInitiated::class => UpdateTransaction::class
+            SingleActionInitiated::class => UpdateTransaction::class,
+            BulkActionInitiated::class => HandleManualAttribution::class
         ];
     }
 }
