@@ -3,7 +3,6 @@
 namespace Novatorius\Siren\ManualAttribution\Handlers;
 
 use Novatorius\Siren\ManualAttribution\Services\ManualAttributionService;
-use PHPNomad\Database\Exceptions\RecordNotFoundException;
 use PHPNomad\Datastore\Exceptions\DatastoreErrorException;
 use PHPNomad\Events\Interfaces\CanHandle;
 use PHPNomad\Events\Interfaces\Event;

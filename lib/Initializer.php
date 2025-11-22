@@ -3,6 +3,7 @@
 namespace Novatorius\Siren\ManualAttribution;
 
 use Novatorius\Siren\ManualAttribution\Handlers\HandleManualAttribution;
+use Novatorius\Siren\ManualAttribution\Handlers\HandleTransactionDelete;
 use Novatorius\Siren\ManualAttribution\Handlers\RegisterEngagementTriggerStrategies;
 use Novatorius\Siren\ManualAttribution\Handlers\UpdateTransaction;
 use Novatorius\Updater\Interfaces\VersionProvider;
@@ -168,7 +169,7 @@ final class Initializer implements Extension, Loadable, HasEventBindings, HasLis
         return [
             EngagementTriggerRegistryInitiated::class => RegisterEngagementTriggerStrategies::class,
             SingleActionInitiated::class => UpdateTransaction::class,
-            BulkActionInitiated::class => HandleManualAttribution::class
+            BulkActionInitiated::class => [HandleManualAttribution::class, HandleTransactionDelete::class]
         ];
     }
 }

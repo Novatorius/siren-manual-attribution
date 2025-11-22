@@ -55,3 +55,8 @@ $collaborators = InstanceProvider::get(CollaboratorDatastore::class)->andWhere([
     'title' => 'Credit Collaborators',
 ]);
 ?>
+<?= Template::render(PathResolver::getPath('public/templates/admin/components/modal/delete-action'), [
+    'title' => 'Delete Transactions',
+    'extra' => '<p>Deleting transactions does not remove their associated obligations, conversions, or any integration data.</p><p>This is a destructive action, only do it if you are <em>really sure.</em></em></p>',
+])
+?>
