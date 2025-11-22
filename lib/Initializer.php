@@ -5,6 +5,8 @@ namespace Novatorius\Siren\ManualAttribution;
 use Novatorius\Siren\ManualAttribution\Handlers\HandleManualAttribution;
 use Novatorius\Siren\ManualAttribution\Handlers\RegisterEngagementTriggerStrategies;
 use Novatorius\Siren\ManualAttribution\Handlers\UpdateTransaction;
+use Novatorius\Updater\Interfaces\VersionProvider;
+use PHPNomad\Core\Facades\InstanceProvider;
 use PHPNomad\Core\Facades\Template;
 use PHPNomad\Events\Interfaces\HasEventBindings;
 use PHPNomad\Events\Interfaces\HasListeners;
@@ -43,7 +45,7 @@ final class Initializer implements Extension, Loadable, HasEventBindings, HasLis
      */
     public function canActivate(): bool
     {
-        return true;
+        return version_compare(InstanceProvider::get(VersionProvider::class)->getVersion(), '2.1.0', '>=');
     }
 
     /**
