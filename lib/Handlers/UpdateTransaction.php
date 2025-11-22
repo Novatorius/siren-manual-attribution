@@ -36,7 +36,6 @@ class UpdateTransaction implements CanHandle
             if($detail['type'] === 'discount'){
                 $detail['value'] = -abs($detail['value']);
             }
-
             if($detail['type'] === 'custom'){
                 $detail['type'] = $detail['custom_type'];
             }
